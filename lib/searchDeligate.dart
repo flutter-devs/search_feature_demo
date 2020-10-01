@@ -23,12 +23,13 @@ class _SearchAppBarDelegate extends SearchDelegate<String> {
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
-      IconButton(
-        icon: Icon(Icons.close),
-        onPressed: () {
-          close(context, null);
-        },
-      ),
+      query.isNotEmpty
+          ? IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () {
+                query = "";
+              })
+          : Container(),
     ];
   }
 
@@ -67,7 +68,7 @@ class _SearchAppBarDelegate extends SearchDelegate<String> {
         ? items
         : items.where((element) => element.title.startsWith(query)).toList();
     return suggestionList.isEmpty
-        ? Text("no result found")
+        ? Text("No result found")
         : ListView.builder(
             itemBuilder: (context, index) {
               return ListTile(

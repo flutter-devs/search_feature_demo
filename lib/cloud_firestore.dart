@@ -8,7 +8,7 @@ class CloudFirestoreSearch extends StatefulWidget {
 
 class _CloudFirestoreSearchState extends State<CloudFirestoreSearch> {
   String name = "";
-
+  TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +22,20 @@ class _CloudFirestoreSearchState extends State<CloudFirestoreSearch> {
         title: Card(
           child: TextField(
             decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search), hintText: 'Search...'),
+                suffixIcon: name.isNotEmpty
+                    ? IconButton(
+                        icon: Icon(Icons.clear),
+                        onPressed: () {
+                          setState(() {
+                            name = "";
+                            nameController.text = "";
+                            Focus.of(context).unfocus();
+                          });
+                        })
+                    : Container(),
+                prefixIcon: Icon(Icons.search),
+                hintText: 'Search...'),
+            controller: nameController,
             onChanged: (val) {
               setState(() {
                 name = val;
@@ -73,5 +86,4 @@ class _CloudFirestoreSearchState extends State<CloudFirestoreSearch> {
       ),
     );
   }
-
 }
